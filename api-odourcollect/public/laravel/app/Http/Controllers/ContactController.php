@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Contact;
 use App\Email;
 use App\Http\Controllers\LocationController;
 use App\Mail\AdminMail;
 use App\Mail\ContactMail;
 use App\OdorEmail;
+use App\Services\OdorColor;
 use App\User;
 use Illuminate\Http\Request;
-
-use App\Contact;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Validator;
-
-use App\Services\OdorColor;
 
 class ContactController extends Controller
 {
@@ -26,8 +24,6 @@ class ContactController extends Controller
      */
     public function index(Request $request)
     {
-
-
     }
 
     /**
@@ -48,7 +44,6 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'subject' => 'required',
             'body' => 'required',
@@ -67,26 +62,22 @@ class ContactController extends Controller
             $contact->subject = $subject;
             $contact->body = $body;
             $contact->save();
-			$from_email = env('MAIL_FROM_ADDRESS');
+            $from_email = env('MAIL_FROM_ADDRESS');
 
-            if ($subject == 'Contact'){
+            if ($subject == 'Contact') {
                 Mail::to($from_email)->send(new ContactMail($contact));
             } else {
                 Mail::to($from_email)->send(new ContactMail($contact));
-                
             }
-
 
             return response()->json(
                 [
                     'status_code' => 200,
                     'data' => [
                         'created' => true,
-                        'message' => "Email sent",
-                    ]
+                        'message' => 'Email sent',
+                    ],
                 ], 200);
-
-
         }
 
         return response()->json(
@@ -94,22 +85,19 @@ class ContactController extends Controller
             'status_code' => 400,
             'data' => [
                 'created' => false,
-                'message' => "There are some errors in the form data.",
-            ]
+                'message' => 'There are some errors in the form data.',
+            ],
         ], 400);
     }
-
-    
 
     /**
      * Display the specified resource.
      *
-     * @param  Integer  $odor
+     * @param  int  $odor
      * @return \Illuminate\Http\Response
      */
     public function show($odor)
     {
-
     }
 
     /**

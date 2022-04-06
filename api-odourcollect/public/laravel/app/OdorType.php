@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class OdorType extends Model implements Auditable
 {
@@ -12,19 +12,12 @@ class OdorType extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id', 'id_odor_parent_type', 'name', 'slug', 'icon', 'color'
+        'id', 'id_odor_parent_type', 'name', 'slug', 'icon', 'color',
     ];
 
     /**
@@ -32,18 +25,19 @@ class OdorType extends Model implements Auditable
      *
      * @var array
      */
-    protected $translatable  = [
-       'name', 'slug',
+    protected $translatable = [
+        'name', 'slug',
     ];
 
     /* 1 - 1 RELATIONS */
     public function parent()
     {
-        return $this->hasOne('App\OdorParentType', 'id', 'id_odor_parent_type');
+        return $this->hasOne(\App\OdorParentType::class, 'id', 'id_odor_parent_type');
     }
 
-    public function scopeParents($query, $ids){
-        if(!empty($ids)){
+    public function scopeParents($query, $ids)
+    {
+        if (! empty($ids)) {
             $query->whereIn('id_odor_parent_type', $ids);
         }
     }

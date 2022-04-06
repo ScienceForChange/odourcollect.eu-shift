@@ -44,8 +44,7 @@ Route::get('/attachOdourToZone', 'OdorController@attachOdourToZone')->name('odou
 Route::get('contact', 'ContactController@store')->name('contact.store');
 Route::post('user/{id}/deleteAccount', 'AuthController@deleteAccount')->name('user.deleteAccount');
 
-
-Route::group(['middleware' => ['jwt.auth']], function() {
+Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('logout', 'AuthController@logout');
     Route::get('user/{id}', 'UserController@show')->name('user.profile');
     Route::post('user/{id}', 'AuthController@profile')->name('user.update');
@@ -56,13 +55,11 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 
     Route::post('/odor', 'OdorController@store')->name('odor.store');
     Route::put('/odor/{odor}', 'OdorController@update')->name('odor.update');
-	Route::delete('/odor/{odor}', 'OdorController@destroy')->name('odor.destroy');
+    Route::delete('/odor/{odor}', 'OdorController@destroy')->name('odor.destroy');
     Route::get('/odor/{odor}/is-confirmed/{user}', 'OdorController@isConfirmed')->name('odor.is.confirmed');
     Route::get('/odor/{odor}/confirm/{user}', 'OdorController@confirm')->name('odor.confirm');
     Route::get('/odor/{odor}/unconfirm/{user}', 'OdorController@unconfirm')->name('odor.unconfirm');
     Route::post('/comment/store', 'CommentController@store')->name('comment.store');
     Route::put('/comment/{id}/hide', 'CommentController@hide')->name('comment.hide');
     Route::put('/odor/{odor}/delete', 'OdorController@delete')->name('odor.delete');
-
-
 });

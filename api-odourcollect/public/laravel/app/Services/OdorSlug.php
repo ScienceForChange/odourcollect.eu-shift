@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Zone;
+use Illuminate\Support\Str;
 
 class OdorSlug
 {
@@ -15,14 +16,14 @@ class OdorSlug
     public function createSlug($title, $id = 0)
     {
         // Normalize the title
-        $slug = str_slug($title);
+        $slug = Str::slug($title);
 
         // Get any that could possibly be related.
         // This cuts the queries down by doing it once.
         $allSlugs = $this->getRelatedSlugs($slug, $id);
 
         // If we haven't used it before then we are all good.
-        if (! $allSlugs->contains('slug', $slug)){
+        if (! $allSlugs->contains('slug', $slug)) {
             return $slug;
         }
 

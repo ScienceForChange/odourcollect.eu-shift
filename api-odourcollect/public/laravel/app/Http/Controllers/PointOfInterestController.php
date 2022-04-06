@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\OdorType;
+use App\PointOfInterest;
 use App\PointOfInterestType;
 use Illuminate\Http\Request;
-
-use App\PointOfInterest;
-use App\OdorType;
 
 class PointOfInterestController extends Controller
 {
@@ -19,13 +18,11 @@ class PointOfInterestController extends Controller
     {
         $points = PointOfInterest::zone($request->get('zone'))->get();
 
-        if( count( $points ) > 0 ){
-
-
+        if (count($points) > 0) {
             foreach ($points as $key => $point) {
                 $type = PointOfInterestType::where('id', $point->id_point_of_interest_type)->first();
-                if($type){
-                    $point->icon = $type->slug . '-spot.png';
+                if ($type) {
+                    $point->icon = $type->slug.'-spot.png';
                 }
             }
 
@@ -35,7 +32,7 @@ class PointOfInterestController extends Controller
                 'data' => [
                     'message' => 'Succesfull request.',
                     'content' => $points,
-                ]
+                ],
             ], 200);
         }
 
@@ -45,10 +42,8 @@ class PointOfInterestController extends Controller
             'data' => [
                 'message' => 'No points found',
                 'content' => null,
-            ]
+            ],
         ], 200);
-        
-        
     }
 
     /**

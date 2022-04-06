@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class InterestSeeder extends Seeder
 {
@@ -13,6 +12,6 @@ class InterestSeeder extends Seeder
      */
     public function run()
     {
-    	factory(App\PointOfInterest::class, 15)->create();
+        factory(App\PointOfInterest::class, 15)->create();
     }
 }

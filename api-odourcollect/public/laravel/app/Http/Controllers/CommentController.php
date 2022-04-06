@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+use App\Comment;
 use App\Odor;
 use App\User;
-use App\Comment;
+use Illuminate\Http\Request;
 use Validator;
 
 class CommentController extends Controller
@@ -39,15 +38,13 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'id_odor' => 'required|exists:odors,id',
             'id_user' => 'required|exists:users,id',
             'comment' => 'required|max:1024',
         ]);
 
-        if ( $validator->passes() ) {
-        
+        if ($validator->passes()) {
             $comment = new Comment($request->all());
             $comment->save();
 
@@ -56,29 +53,36 @@ class CommentController extends Controller
                 'status_code' => 200,
                 'data' => [
                     'created' => true,
-                    'message' => "Comment added to Odor(".$request->get('id_odor').")",
+                    'message' => 'Comment added to Odor('.$request->get('id_odor').')',
                     'object' => $comment,
-                ]
+                ],
             ], 200);
         }
 
         $aux = $validator->errors();
-        if ($aux->has('id_odor')) { $errors['id_odor'] = $aux->get('id_odor'); }
-        if ($aux->has('id_user')) { $errors['id_user'] = $aux->get('id_user'); }
-        if ($aux->has('comment')) { $errors['comment'] = $aux->get('comment'); }
+        if ($aux->has('id_odor')) {
+            $errors['id_odor'] = $aux->get('id_odor');
+        }
+        if ($aux->has('id_user')) {
+            $errors['id_user'] = $aux->get('id_user');
+        }
+        if ($aux->has('comment')) {
+            $errors['comment'] = $aux->get('comment');
+        }
 
         return response()->json(
         [
             'status_code' => 400,
             'data' => [
                 'created' => false,
-                'message' => "There are some errors in the form data.",
+                'message' => 'There are some errors in the form data.',
                 'errors' => $errors,
-            ]
+            ],
         ], 400);
     }
 
-    public function hide(Request $request, $id){
+    public function hide(Request $request, $id)
+    {
         $comment = Comment::find($id);
 
         $comment->hidden = 1;
@@ -88,11 +92,10 @@ class CommentController extends Controller
             [
                 'status_code' => 200,
                 'data' => [
-                    'message' => "Comment ".$id." deleted",
+                    'message' => 'Comment '.$id.' deleted',
                     'comment' => $comment,
-                ]
+                ],
             ], 200);
-
     }
 
     /**

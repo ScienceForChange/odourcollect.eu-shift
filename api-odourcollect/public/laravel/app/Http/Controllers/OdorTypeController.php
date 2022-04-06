@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\OdorParentType;
 use App\OdorType;
+use Illuminate\Http\Request;
 
 class OdorTypeController extends Controller
 {
@@ -24,7 +23,7 @@ class OdorTypeController extends Controller
             'data' => [
                 'message' => 'Succesfull request.',
                 'content' => $odor_types,
-            ]
+            ],
         ], 200);
     }
 

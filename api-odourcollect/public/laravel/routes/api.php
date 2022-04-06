@@ -43,8 +43,7 @@ Route::get('/attachOdourToZone', 'OdorController@attachOdourToZone')->name('odou
 
 Route::get('contact', 'ContactController@store')->name('contact.store');
 
-
-Route::group(['middleware' => ['jwt.auth']], function() {
+Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('logout', 'AuthController@logout');
     Route::get('user/{id}', 'UserController@show')->name('user.profile');
     Route::post('user/{id}', 'AuthController@profile')->name('user.update');
@@ -61,6 +60,4 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/comment/store', 'CommentController@store')->name('comment.store');
     Route::put('/comment/{id}/hide', 'CommentController@hide')->name('comment.hide');
     Route::put('/odor/{odor}/delete', 'OdorController@delete')->name('odor.delete');
-
-
 });

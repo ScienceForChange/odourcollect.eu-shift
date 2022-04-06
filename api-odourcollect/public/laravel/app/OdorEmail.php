@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class OdorEmail extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'user', 'subject', 'location'
+        'user', 'subject', 'location',
     ];
 
     /**
@@ -21,8 +20,7 @@ class OdorEmail extends Model
      *
      * @var array
      */
-    protected $translatable  = [
-        'user', 'subject', 'location'
+    protected $translatable = [
+        'user', 'subject', 'location',
     ];
-
 }

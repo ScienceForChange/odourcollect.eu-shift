@@ -22,7 +22,7 @@ class OdorDurationController extends Controller
             'data' => [
                 'message' => 'Succesfull request.',
                 'content' => $odor_durations,
-            ]
+            ],
         ], 200);
     }
 

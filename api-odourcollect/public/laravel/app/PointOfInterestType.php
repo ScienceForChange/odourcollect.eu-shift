@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class PointOfInterestType extends Model implements Auditable
 {
@@ -12,19 +12,12 @@ class PointOfInterestType extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'slug'
+        'id', 'name', 'slug',
     ];
 
     /**
@@ -32,7 +25,7 @@ class PointOfInterestType extends Model implements Auditable
      *
      * @var array
      */
-    protected $translatable  = [
-       'name', 'slug',
+    protected $translatable = [
+        'name', 'slug',
     ];
 }
