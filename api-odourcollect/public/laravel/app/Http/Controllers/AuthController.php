@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Newsletter;
 use App\Odor;
 use App\User;
@@ -60,7 +61,7 @@ class AuthController extends Controller
         $password = $request->password;
         $user = User::create(['username' => $username, 'age' => $age, 'gender' => $gender, 'email' => $email, 'password' => Hash::make($password), 'active' => 1]);
         $this->addToNewsletter($request);
-        $verification_code = str_random(30); //Generate verification code
+        $verification_code = Str::random(30); //Generate verification code
         DB::table('user_verifications')->insert(['user_id'=>$user->id, 'token'=>$verification_code]);
         $subject = 'Verify Email - OdourCollect';
         //$from_email = env('MAIL_FROM_ADDRESS');
@@ -148,7 +149,7 @@ class AuthController extends Controller
             if ($verify) {
                 $user->email_verified = 0;
                 $user->email_verification_date = null;
-                $verification_code = str_random(30); //Generate verification code
+                $verification_code = Str::random(30); //Generate verification code
                 DB::table('user_verifications')->insert(['user_id' => $user->id, 'token' => $verification_code]);
                 $subject = 'Verify Email - OdourCollect';
                 $from_email = env('MAIL_FROM_ADDRESS');

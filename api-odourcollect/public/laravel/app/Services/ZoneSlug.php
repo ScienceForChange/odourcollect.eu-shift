@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Str;
 use App\Zone;
 
 class ZoneSlug
@@ -15,7 +16,7 @@ class ZoneSlug
     public function createSlug($title, $id = 0)
     {
         // Normalize the title
-        $slug = str_slug($title);
+        $slug = Str::slug($title);
 
         // Get any that could possibly be related.
         // This cuts the queries down by doing it once.
