@@ -13,7 +13,6 @@ class VerifyAccessKey
      * @param  \Closure  $next
      * @return mixed
      */
-
     public function handle($request, Closure $next)
     {
 
@@ -25,7 +24,7 @@ class VerifyAccessKey
         // Si coincide con el valor almacenado en la aplicacion
         // la aplicacion se sigue ejecutando
         //$key == env('API_KEY')
-        if ( 1 == 1 ) {
+        if (1 == 1) {
             return $next($request);
         } else {
             // Si falla devolvemos el mensaje de error
@@ -34,10 +33,9 @@ class VerifyAccessKey
                 'status_code' => 403,
                 'data' => [
                     'error' => 403,
-                    'message' => "Forbidden - APP API KEY NOT PROVIDED",
-                ]
+                    'message' => 'Forbidden - APP API KEY NOT PROVIDED',
+                ],
             ], 403);
         }
-        
     }
 }

@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class OdorTypeSeeder extends Seeder
 {
@@ -96,7 +95,7 @@ class OdorTypeSeeder extends Seeder
         DB::table('odor_types')->insert([
             'id_odor_parent_type' => 1,
             'name' => "I don't know",
-            'slug' => "i-dont-know-waste",
+            'slug' => 'i-dont-know-waste',
             'icon' => 'waste-spot.png',
             'color' => '#000000',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -156,7 +155,7 @@ class OdorTypeSeeder extends Seeder
         DB::table('odor_types')->insert([
             'id_odor_parent_type' => 2,
             'name' => "I don't know",
-            'slug' => "i-dont-know-waste-water",
+            'slug' => 'i-dont-know-waste-water',
             'icon' => 'water-spot.png',
             'color' => '#000000',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -256,7 +255,7 @@ class OdorTypeSeeder extends Seeder
         DB::table('odor_types')->insert([
             'id_odor_parent_type' => 3,
             'name' => "I don't know",
-            'slug' => "i-dont-know-agriculture",
+            'slug' => 'i-dont-know-agriculture',
             'icon' => 'agriculture-spot.png',
             'color' => '#000000',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -436,7 +435,7 @@ class OdorTypeSeeder extends Seeder
         DB::table('odor_types')->insert([
             'id_odor_parent_type' => 4,
             'name' => "I don't know",
-            'slug' => "i-dont-know-food",
+            'slug' => 'i-dont-know-food',
             'icon' => 'food-spot.png',
             'color' => '#000000',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -632,6 +631,5 @@ class OdorTypeSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-        
     }
 }

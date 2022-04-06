@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class OdorTrack extends Model implements Auditable
 {
@@ -24,7 +24,6 @@ class OdorTrack extends Model implements Auditable
      * @var array
      */
     protected $fillable = [
-        'id', 'id_odor', 'time', 'latitude', 'longitude'
+        'id', 'id_odor', 'time', 'latitude', 'longitude',
     ];
-
 }

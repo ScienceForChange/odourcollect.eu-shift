@@ -25,17 +25,19 @@ class FakerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Faker', function($app) {
+        $this->app->singleton('Faker', function ($app) {
             $faker = Factory::create('es_ES');
             $newClass = new class($faker) extends \Faker\Provider\Base {
                 public function slug($title, $nbWords = 4)
                 {
                     $sentence = $this->generator->sentence($nbWords);
+
                     return substr($sentence, 0, strlen($sentence) - 1);
                 }
             };
 
             $faker->addProvider($newClass);
+
             return $faker;
         });
     }

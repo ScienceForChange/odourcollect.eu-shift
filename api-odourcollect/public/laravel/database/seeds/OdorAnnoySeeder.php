@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class OdorAnnoySeeder extends Seeder
 {
@@ -15,7 +14,7 @@ class OdorAnnoySeeder extends Seeder
     {
         DB::table('odor_annoys')->insert([
             'index' => -4,
-            'name' => "Extremely unpleasant",
+            'name' => 'Extremely unpleasant',
             'slug' => 'extremely-unpleasant',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -23,7 +22,7 @@ class OdorAnnoySeeder extends Seeder
 
         DB::table('odor_annoys')->insert([
             'index' => -3,
-            'name' => "Very unpleasant",
+            'name' => 'Very unpleasant',
             'slug' => 'very-unpleasant',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -31,7 +30,7 @@ class OdorAnnoySeeder extends Seeder
 
         DB::table('odor_annoys')->insert([
             'index' => -2,
-            'name' => "Unpleasant",
+            'name' => 'Unpleasant',
             'slug' => 'unpleasant',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -39,7 +38,7 @@ class OdorAnnoySeeder extends Seeder
 
         DB::table('odor_annoys')->insert([
             'index' => -1,
-            'name' => "Slightly unpleasant",
+            'name' => 'Slightly unpleasant',
             'slug' => 'slightly-unpleasant',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -47,7 +46,7 @@ class OdorAnnoySeeder extends Seeder
 
         DB::table('odor_annoys')->insert([
             'index' => 0,
-            'name' => "Neutral",
+            'name' => 'Neutral',
             'slug' => 'neutral',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -55,7 +54,7 @@ class OdorAnnoySeeder extends Seeder
 
         DB::table('odor_annoys')->insert([
             'index' => 1,
-            'name' => "Slightly pleasant",
+            'name' => 'Slightly pleasant',
             'slug' => 'slightly-pleasant',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -63,7 +62,7 @@ class OdorAnnoySeeder extends Seeder
 
         DB::table('odor_annoys')->insert([
             'index' => 2,
-            'name' => "Pleasant",
+            'name' => 'Pleasant',
             'slug' => 'pleasant',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -71,7 +70,7 @@ class OdorAnnoySeeder extends Seeder
 
         DB::table('odor_annoys')->insert([
             'index' => 3,
-            'name' => "Very pleasant",
+            'name' => 'Very pleasant',
             'slug' => 'very-pleasant',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -79,11 +78,10 @@ class OdorAnnoySeeder extends Seeder
 
         DB::table('odor_annoys')->insert([
             'index' => 4,
-            'name' => "Extremely pleasan",
+            'name' => 'Extremely pleasan',
             'slug' => 'extremely-pleasan',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-
     }
 }

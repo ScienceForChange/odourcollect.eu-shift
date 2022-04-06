@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class OdorIntensity extends Model implements Auditable
 {
@@ -32,7 +32,7 @@ class OdorIntensity extends Model implements Auditable
      *
      * @var array
      */
-    protected $translatable  = [
-       'name', 'slug',
+    protected $translatable = [
+        'name', 'slug',
     ];
 }

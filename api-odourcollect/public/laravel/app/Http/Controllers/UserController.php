@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\LocationController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Odor;
 use App\Location;
+use App\Odor;
+use App\Point;
 use App\User;
 use App\Zone;
-use App\Point;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class UserController extends Controller
@@ -54,22 +54,20 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-	$newsletter = DB::table('newsletters')
-	->whereRaw('email="'.$user->email.'"')
-	->count();
-        if($user){
-
+        $newsletter = DB::table('newsletters')
+    ->whereRaw('email="'.$user->email.'"')
+    ->count();
+        if ($user) {
             return response()->json(
             [
                 'status_code' => 200,
                 'data' => [
                     'finded' => true,
-                    'message' => "User ".$id." has been finded.",
+                    'message' => 'User '.$id.' has been finded.',
                     'object' => $user,
-		    'newsletter' => $newsletter
-                ]
+                    'newsletter' => $newsletter,
+                ],
             ], 200);
-
         }
 
         return response()->json(
@@ -77,8 +75,8 @@ class UserController extends Controller
             'status_code' => 400,
             'data' => [
                 'finded' => false,
-                'message' => "User not found.",
-            ]
+                'message' => 'User not found.',
+            ],
         ], 400);
     }
 
@@ -91,22 +89,20 @@ class UserController extends Controller
     public function odours($id)
     {
         $user = User::find($id);
-        if($user){
-
+        if ($user) {
             $odours = Odor::creator($id)->with('likes')->with('comments')->with('location')->verified('1')->where('status', 'published')->get();
             foreach ($odours as $key => $odor) {
                 $odor->confirmations = $odor->likes->count();
             }
-            
+
             return response()->json(
             [
                 'status_code' => 200,
                 'data' => [
-                    'message' => "User Odours finded.",
+                    'message' => 'User Odours finded.',
                     'object' => $odours,
-                ]
+                ],
             ], 200);
-
         }
 
         return response()->json(
@@ -114,8 +110,8 @@ class UserController extends Controller
             'status_code' => 400,
             'data' => [
                 'finded' => false,
-                'message' => "User not found.",
-            ]
+                'message' => 'User not found.',
+            ],
         ], 400);
     }
 
@@ -131,16 +127,13 @@ class UserController extends Controller
         //$user = Zone::where('deleted_at',"NULL")->where('id_user',$id)->get();
 
         $user_zones = DB::table('zones')
-        ->join('user_zones','zones.id','=','id_zone')
+        ->join('user_zones', 'zones.id', '=', 'id_zone')
         ->where('id_user', '=', $id)
         ->whereNull('user_zones.deleted_at')
         ->get();
 
-        if($user_zones){
-
-            if( count( $user_zones ) > 0){
-
-                
+        if ($user_zones) {
+            if (count($user_zones) > 0) {
                 foreach ($user_zones as $key => $zone) {
                     $points = Point::zone($zone->id_zone)->get();
                     $zone->points = $points;
@@ -150,21 +143,20 @@ class UserController extends Controller
                 [
                     'status_code' => 200,
                     'data' => [
-                        'message' => "User ".$id." Zones finded.",
+                        'message' => 'User '.$id.' Zones finded.',
                         'object' => $user_zones,
-                    ]
+                    ],
                 ], 200);
-            }else{
+            } else {
                 return response()->json(
                 [
                     'status_code' => 200,
                     'data' => [
-                        'message' => "User ".$id." NO Zones finded.",
+                        'message' => 'User '.$id.' NO Zones finded.',
                         'object' => null,
-                    ]
+                    ],
                 ], 200);
             }
-
         }
 
         return response()->json(
@@ -172,8 +164,8 @@ class UserController extends Controller
             'status_code' => 400,
             'data' => [
                 'finded' => false,
-                'message' => "User not found.",
-            ]
+                'message' => 'User not found.',
+            ],
         ], 400);
     }
 

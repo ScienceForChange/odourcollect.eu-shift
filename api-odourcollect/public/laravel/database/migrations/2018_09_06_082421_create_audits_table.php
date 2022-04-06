@@ -39,7 +39,7 @@ class CreateAuditsTable extends Migration
             $table->string('tags')->nullable();
             $table->softDeletes();
             $table->timestamps();
-			
+
             $table->index(['user_id', 'user_type']);
         });
     }

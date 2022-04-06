@@ -2,14 +2,12 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use OwenIt\Auditing\Contracts\Auditable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 use App\Notifications\ResetPasswordNotification;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use OwenIt\Auditing\Contracts\Auditable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject, Auditable
 {
@@ -30,7 +28,7 @@ class User extends Authenticatable implements JWTSubject, Auditable
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'age', 'gender', 'phone', 'password', 'is_verified', 'count', 'last_login', 'username'
+        'name', 'surname', 'email', 'age', 'gender', 'phone', 'password', 'is_verified', 'count', 'last_login', 'username',
     ];
 
     /**
@@ -51,6 +49,7 @@ class User extends Authenticatable implements JWTSubject, Auditable
     {
         return $this->getKey();
     }
+
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
      *
@@ -75,7 +74,7 @@ class User extends Authenticatable implements JWTSubject, Auditable
     /* RELACIONS N-M */
     public function zones()
     {
-         return $this->belongsToMany('App\Zone', 'user_zones', 'id_user', 'id_zone')->withTimestamps();
+        return $this->belongsToMany('App\Zone', 'user_zones', 'id_user', 'id_zone')->withTimestamps();
     }
 
     public function sendPasswordResetNotification($token)

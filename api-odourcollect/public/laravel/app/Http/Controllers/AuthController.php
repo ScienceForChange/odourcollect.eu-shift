@@ -1,17 +1,19 @@
 <?php
+
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\User;
+
 use App\Newsletter;
 use App\Odor;
-use JWTAuth;
-
-use Tymon\JWTAuth\Exceptions\JWTException;
-
-use Validator, DB, Hash, Mail;
-
-use Illuminate\Support\Facades\Password;
+use App\User;
+use DB;
+use Hash;
+use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Password;
+use JWTAuth;
+use Mail;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -24,11 +26,11 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $credentials = $request->only('username', 'email', 'password', 'age', 'gender');
-        
+
         $rules = [
             'username' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required'
+            'password' => 'required',
         ];
         $messages = [
             'username.required' => 'required',
@@ -37,17 +39,17 @@ class AuthController extends Controller
             'email.unique' => 'unique',
             'email.email' => 'valid',
             'email.max' => 'max',
-            'password.required' => 'required'
+            'password.required' => 'required',
         ];
         $validator = Validator::make($credentials, $rules, $messages);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
             [
                 'status_code' => 400,
                 'data' => [
                     'error'=> json_encode($validator->messages()),
-                    'message' => "Validation Fails",
-                ]
+                    'message' => 'Validation Fails',
+                ],
             ], 400);
         }
         $username = $request->username;
@@ -59,13 +61,13 @@ class AuthController extends Controller
         $user = User::create(['username' => $username, 'age' => $age, 'gender' => $gender, 'email' => $email, 'password' => Hash::make($password), 'active' => 1]);
         $this->addToNewsletter($request);
         $verification_code = str_random(30); //Generate verification code
-        DB::table('user_verifications')->insert(['user_id'=>$user->id,'token'=>$verification_code]);
-        $subject = "Verify Email - OdourCollect";
-		//$from_email = env('MAIL_FROM_ADDRESS');
-        $from_email = "odourcollect@ibercivis.es";
-        Mail::send('email.verify', ['name' => $username, 'verification_code' => $verification_code , 'lang' => $lang],
-            function($mail) use ($email, $username, $subject){
-                $mail->from("odourcollect@ibercivis.es", "odourcollect@ibercivis.es");
+        DB::table('user_verifications')->insert(['user_id'=>$user->id, 'token'=>$verification_code]);
+        $subject = 'Verify Email - OdourCollect';
+        //$from_email = env('MAIL_FROM_ADDRESS');
+        $from_email = 'odourcollect@ibercivis.es';
+        Mail::send('email.verify', ['name' => $username, 'verification_code' => $verification_code, 'lang' => $lang],
+            function ($mail) use ($email, $username, $subject) {
+                $mail->from('odourcollect@ibercivis.es', 'odourcollect@ibercivis.es');
                 $mail->to($email, $username);
                 $mail->subject($subject);
             });
@@ -75,7 +77,7 @@ class AuthController extends Controller
             'status_code' => 200,
             'data' => [
                 'message'=> 'Thanks for signing up! Please check your email to complete your registration.',
-            ]
+            ],
         ], 200);
     }
 
@@ -87,10 +89,9 @@ class AuthController extends Controller
      */
     public function profile(Request $request, $id)
     {
-
         $verify = 0;
         $credentials = $request->all();
-        
+
         $rules = [
             'name' => 'required|max:255',
             'surname' => 'required|max:255',
@@ -115,21 +116,22 @@ class AuthController extends Controller
         ];
 
         $validator = Validator::make($credentials, $rules, $messages);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
             [
                 'status_code' => 400,
                 'data' => [
                     'error'=> json_encode($validator->messages()),
-                    'message' => "Validation Fails",
-                ]
+                    'message' => 'Validation Fails',
+                ],
             ], 400);
         }
 
         $user = User::find($id);
-        if($user){
-
-            if($user->email != $request->get('email')){ $verify = 1; }
+        if ($user) {
+            if ($user->email != $request->get('email')) {
+                $verify = 1;
+            }
 
             $user->name = $request->get('name');
             $user->surname = $request->get('surname');
@@ -143,15 +145,15 @@ class AuthController extends Controller
             $surname = $user->surname;
             $email = $user->email;
 
-            if($verify){
+            if ($verify) {
                 $user->email_verified = 0;
-                $user->email_verification_date = NULL;
+                $user->email_verification_date = null;
                 $verification_code = str_random(30); //Generate verification code
                 DB::table('user_verifications')->insert(['user_id' => $user->id, 'token' => $verification_code]);
-                $subject = "Verify Email - OdourCollect";
-				$from_email = env('MAIL_FROM_ADDRESS');
+                $subject = 'Verify Email - OdourCollect';
+                $from_email = env('MAIL_FROM_ADDRESS');
                 Mail::send('email.verify', ['name' => $name.' '.$surname, 'verification_code' => $verification_code],
-                    function($mail) use ($email, $name, $surname, $subject){
+                    function ($mail) use ($email, $name, $surname, $subject) {
                         $mail->from($from_email, $from_email);
                         $mail->to($email, $name.' '.$surname);
                         $mail->subject($subject);
@@ -159,18 +161,17 @@ class AuthController extends Controller
             }
 
             $user->save();
-	    $this->addOrRemoveFromNewsletter($request);
+            $this->addOrRemoveFromNewsletter($request);
 
             return response()->json(
             [
                 'status_code' => 200,
                 'data' => [
-                    'message' => "User ".$id." Profile Updated",
+                    'message' => 'User '.$id.' Profile Updated',
                     'email' => $verify,
                     'object' => $user,
-                ]
+                ],
             ], 200);
-
         }
 
         return response()->json(
@@ -178,12 +179,12 @@ class AuthController extends Controller
             'status_code' => 400,
             'data' => [
                 'finded' => false,
-                'message' => "User not found.",
-            ]
+                'message' => 'User not found.',
+            ],
         ], 400);
     }
 
-        /**
+    /**
      * API Profile DeleteAccount
      *
      * @param Request $request
@@ -192,32 +193,30 @@ class AuthController extends Controller
     public function deleteAccount(Request $request, $id)
     {
         $delete_contributions = $request->get('dat');
-        if($delete_contributions){
-            $odors= DB::table('odors')
+        if ($delete_contributions) {
+            $odors = DB::table('odors')
             ->select('id')
             ->whereRaw('id_user='.$id)
             ->delete();
-        }
-        else{
+        } else {
             DB::table('odors')
             ->select('id')
             ->whereRaw('id_user='.$id)
-            ->update(array('id_user' => '11'));
+            ->update(['id_user' => '11']);
         }
         DB::table('users')
         ->select('id')
         ->whereRaw('id='.$id)
         ->delete();
 
-     return response()->json(
+        return response()->json(
         [
             'status_code' => 200,
             'data' => [
                 'finded' => false,
-                'message' => "User not foundido."
-            ]
+                'message' => 'User not foundido.',
+            ],
         ], 200);
-
     }
 
     /**
@@ -229,8 +228,7 @@ class AuthController extends Controller
     public function password(Request $request, $id)
     {
         $user = User::find($id);
-        if($user){
-
+        if ($user) {
             $credentials = $request->only('email', 'password');
 
             $credentials['email'] = $user->email;
@@ -242,31 +240,29 @@ class AuthController extends Controller
 
             $validator = Validator::make($credentials, $rules);
 
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 return response()->json(
                     [
                         'status_code' => 400,
                         'data' => [
                             'error'=> json_encode($validator->messages()),
-                            'message' => "Validation Fails",
-                        ]
+                            'message' => 'Validation Fails',
+                        ],
                     ], 400);
             }
 
+            $user->password = Hash::make($request->get('new_password'));
 
-            $user->password = Hash::make( $request->get('new_password') );
-           
             $user->save();
 
             return response()->json(
             [
                 'status_code' => 200,
                 'data' => [
-                    'message' => "User ".$id." Password Updated",
+                    'message' => 'User '.$id.' Password Updated',
                     'object' => $user,
-                ]
+                ],
             ], 200);
-
         }
 
         return response()->json(
@@ -274,8 +270,8 @@ class AuthController extends Controller
             'status_code' => 400,
             'data' => [
                 'finded' => false,
-                'message' => "User not found.",
-            ]
+                'message' => 'User not found.',
+            ],
         ], 400);
     }
 
@@ -287,18 +283,18 @@ class AuthController extends Controller
      */
     public function verifyUser($verification_code)
     {
-        $check = DB::table('user_verifications')->where('token',$verification_code)->first();
-        if(!is_null($check)){
+        $check = DB::table('user_verifications')->where('token', $verification_code)->first();
+        if (! is_null($check)) {
             $user = User::find($check->user_id);
-            if($user->active == 1){
+            if ($user->active == 1) {
                 return view('pages.verified');
             }
             $user->update(['active' => 1]);
             $user->update(['email_verified' => 1]);
             $user->update(['email_verification_date' => date()]);
-            DB::table('user_verifications')->where('token',$verification_code)->delete();
+            DB::table('user_verifications')->where('token', $verification_code)->delete();
 
-            return view('pages.verify'); 
+            return view('pages.verify');
         }
 
         return response()->json(
@@ -306,8 +302,8 @@ class AuthController extends Controller
             'status_code' => 400,
             'data' => [
                 'error'=> 400,
-                'message' => "Verification code is invalid",
-            ]
+                'message' => 'Verification code is invalid',
+            ],
         ], 400);
     }
 
@@ -320,25 +316,25 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        
+
         $rules = [
             'email' => 'required|email',
             'password' => 'required',
         ];
         $validator = Validator::make($credentials, $rules);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
             [
                 'status_code' => 400,
                 'data' => [
                     'error'=> $validator->messages(),
-                    'message' => "Validation Fails",
-                ]
+                    'message' => 'Validation Fails',
+                ],
             ], 400);
         }
-        
+
         $credentials['active'] = 1;
-        
+
         try {
             // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
@@ -348,7 +344,7 @@ class AuthController extends Controller
                     'data' => [
                         'error' => 401,
                         'message' => 'We cant find an account with this credentials. Please make sure you entered the right information and you have verified your email address.',
-                    ]
+                    ],
                 ], 401);
             }
         } catch (JWTException $e) {
@@ -360,10 +356,10 @@ class AuthController extends Controller
                 'data' => [
                     'error'=> 500,
                     'message' => 'Failed to login, please try again.',
-                ]
+                ],
             ], 500);
         }
-        $user = User::where( 'email', $request->get('email') )->first();
+        $user = User::where('email', $request->get('email'))->first();
         $user->count++;
         $user->last_login = now();
         $user->save();
@@ -375,7 +371,7 @@ class AuthController extends Controller
                 'message' => 'Successfully Logged In',
                 'token' => $token,
                 'object' => $user,
-            ]
+            ],
         ], 200);
     }
 
@@ -386,17 +382,19 @@ class AuthController extends Controller
      *
      * @param Request $request
      */
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $this->validate($request, ['token' => 'required']);
-        
+
         try {
             JWTAuth::invalidate($request->input('token'));
+
             return response()->json(
             [
                 'status_code' => 200,
                 'data' => [
-                    'message'=> "You have successfully logged out.",
-                ]
+                    'message'=> 'You have successfully logged out.',
+                ],
             ], 200);
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
@@ -406,7 +404,7 @@ class AuthController extends Controller
                 'data' => [
                     'error'=> 500,
                     'message' => 'Failed to logout, please try again.',
-                ]
+                ],
             ], 500);
         }
     }
@@ -420,20 +418,21 @@ class AuthController extends Controller
     public function recover(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        if (!$user) {
-            $error_message = "Your email address was not found.";
+        if (! $user) {
+            $error_message = 'Your email address was not found.';
+
             return response()->json(
             [
                 'status_code' => 401,
                 'data' => [
                     'errors'=> [
-                        'email'=> $error_message
+                        'email'=> $error_message,
                     ],
                     'message' => 'Validation Fails',
-                ]
+                ],
             ], 401);
         }
-        
+
         try {
             Password::sendResetLink($request->only('email'), function (Message $message) {
                 $message->subject('Your Password Reset Link');
@@ -441,13 +440,14 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             //Return with error
             $error_message = $e->getMessage();
+
             return response()->json(
             [
                 'status_code' => 401,
                 'data' => [
                     'errors'=> $error_message,
                     'message' => 'Validation Fails',
-                ]
+                ],
             ], 401);
         }
 
@@ -455,8 +455,8 @@ class AuthController extends Controller
         [
             'status_code' => 200,
             'data' => [
-                'message'=> "A reset email has been sent! Please check your email.",
-            ]
+                'message'=> 'A reset email has been sent! Please check your email.',
+            ],
         ], 200);
     }
 
@@ -470,13 +470,14 @@ class AuthController extends Controller
         return view('auth.passwords.resetOK');
     }
 
-    private function addToNewsletter(Request $request){
+    private function addToNewsletter(Request $request)
+    {
         $email = $request->get('email');
         $accepted = $request->get('newsletter');
 
-        if($accepted){
+        if ($accepted) {
             $nn = Newsletter::email($email)->first();
-            if(!$nn){
+            if (! $nn) {
                 $newsletter = new Newsletter();
                 $newsletter->email = $email;
                 $newsletter->accepted = 1;
@@ -486,27 +487,26 @@ class AuthController extends Controller
 
         return true;
     }
-    private function addOrRemoveFromNewsletter(Request $request){
+
+    private function addOrRemoveFromNewsletter(Request $request)
+    {
         $email = $request->get('email');
         $accepted = $request->get('newsletter');
 
-        if($accepted){
+        if ($accepted) {
             $nn = Newsletter::email($email)->first();
-            if(!$nn){
+            if (! $nn) {
                 $newsletter = new Newsletter();
                 $newsletter->email = $email;
                 $newsletter->accepted = 1;
                 $newsletter->save();
             }
+        } else {
+            DB::table('newsletters')
+        ->where('email', $email)
+        ->delete();
         }
-	else{
-		DB::table('newsletters')
-		->where('email', $email)
-		->delete();
-	}
 
         return true;
     }
-
-
 }

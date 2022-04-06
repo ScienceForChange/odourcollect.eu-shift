@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class Odor extends Model implements Auditable
 {
@@ -18,13 +18,13 @@ class Odor extends Model implements Auditable
      */
     protected $dates = ['deleted_at'];
 
-	/**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id', 'id_odor_type', 'id_user', 'verified', 'track', 'status', 'name', 'slug', 'description', 'origin', 'color', 'id_odor_intensity', 'id_odor_duration', 'id_odor_annoy', 'published_at'
+        'id', 'id_odor_type', 'id_user', 'verified', 'track', 'status', 'name', 'slug', 'description', 'origin', 'color', 'id_odor_intensity', 'id_odor_duration', 'id_odor_annoy', 'published_at',
     ];
 
     /**
@@ -32,8 +32,8 @@ class Odor extends Model implements Auditable
      *
      * @var array
      */
-    protected $translatable  = [
-       'name', 'slug', 'description'
+    protected $translatable = [
+        'name', 'slug', 'description',
     ];
 
     /* RELACIONS 1-1 */
@@ -70,14 +70,16 @@ class Odor extends Model implements Auditable
     }
 
     /** FILTERS **/
-    public function scopeCreator($query, $user){
-        if($user != ''){
+    public function scopeCreator($query, $user)
+    {
+        if ($user != '') {
             $query->where('id_user', $user);
         }
     }
 
-    public function scopeName($query, $name){
-        if($name != ''){
+    public function scopeName($query, $name)
+    {
+        if ($name != '') {
             $query->where('name', 'LIKE', '%'.$name.'%');
         }
     }
@@ -86,57 +88,63 @@ class Odor extends Model implements Auditable
         if($id_odor_type != ''){
             $query->where('id_odor_type', $id_odor_type);
         }
-    } */ 
+    } */
 
-    public function scopeType($query, $odors_ids){
-        if(!empty($odors_ids)){
+    public function scopeType($query, $odors_ids)
+    {
+        if (! empty($odors_ids)) {
             $query->whereIn('id_odor_type', $odors_ids);
         }
     }
 
     public function scopeZone($query, $id_zone)
     {
-        if(!empty($id_zone)){
+        if (! empty($id_zone)) {
             return $query->whereHas('zones', function ($query) use ($id_zone) {
                 $query->where('zones.id', $id_zone);
             });
         }
     }
 
-    public function scopeIntensity($query, $id_odor_intensity){
-        if($id_odor_intensity != ''){
+    public function scopeIntensity($query, $id_odor_intensity)
+    {
+        if ($id_odor_intensity != '') {
             $query->where('id_odor_intensity', $id_odor_intensity);
         }
     }
 
-    public function scopeAnnoy($query, $id_odor_annoy){
-        if($id_odor_annoy != ''){
+    public function scopeAnnoy($query, $id_odor_annoy)
+    {
+        if ($id_odor_annoy != '') {
             $query->where('id_odor_annoy', $id_odor_annoy);
         }
     }
 
-    public function scopeDescription($query, $description){
-        if($description != ''){
+    public function scopeDescription($query, $description)
+    {
+        if ($description != '') {
             $query->where('description', 'LIKE', '%'.$description.'%');
         }
     }
 
-    public function scopeVerified($query, $verified){
-        if ($verified != ''){
+    public function scopeVerified($query, $verified)
+    {
+        if ($verified != '') {
             $query->where('verified', $verified);
         }
     }
 
-    public function scopePublished($query, $init, $end){
-        if ($init != ''){
-            $query->whereBetween('published_at', array($init, $end));
+    public function scopePublished($query, $init, $end)
+    {
+        if ($init != '') {
+            $query->whereBetween('published_at', [$init, $end]);
         }
     }
 
-    public function scopeStatus($query, $status){
-        if ($status != ''){
+    public function scopeStatus($query, $status)
+    {
+        if ($status != '') {
             $query->where('status', $status);
         }
     }
-
 }

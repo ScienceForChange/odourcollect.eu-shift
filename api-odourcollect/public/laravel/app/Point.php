@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class Point extends Model implements Auditable
 {
@@ -24,15 +24,14 @@ class Point extends Model implements Auditable
      * @var array
      */
     protected $fillable = [
-        'id', 'id_zone', 'slug', 'latitude', 'longitude'
+        'id', 'id_zone', 'slug', 'latitude', 'longitude',
     ];
 
-
     /** FILTERS **/
-    public function scopeZone($query, $zone){
-        if($zone != ''){
+    public function scopeZone($query, $zone)
+    {
+        if ($zone != '') {
             $query->where('id_zone', $zone);
         }
     }
-
 }
