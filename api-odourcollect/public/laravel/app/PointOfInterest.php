@@ -11,8 +11,6 @@ class PointOfInterest extends Model implements Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-
-
     /**
      * The database table used by the model.
      *

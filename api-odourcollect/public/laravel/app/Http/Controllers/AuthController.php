@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use App\Newsletter;
 use App\Odor;
 use App\User;
@@ -11,6 +10,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use JWTAuth;
 use Mail;
 use Tymon\JWTAuth\Exceptions\JWTException;

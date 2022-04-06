@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Str;
 use App\Zone;
+use Illuminate\Support\Str;
 
 class ZoneSlug
 {

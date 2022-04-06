@@ -15,8 +15,6 @@ class User extends Authenticatable implements JWTSubject, Auditable
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-
-
     /**
      * The attributes that are mass assignable.
      *
