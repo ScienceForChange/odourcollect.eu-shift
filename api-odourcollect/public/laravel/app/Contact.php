@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'user', 'subject', 'body'
+        'user', 'subject', 'body',
     ];
 
     /**
@@ -21,8 +20,7 @@ class Contact extends Model
      *
      * @var array
      */
-    protected $translatable  = [
-        'user', 'subject', 'body'
+    protected $translatable = [
+        'user', 'subject', 'body',
     ];
-
 }

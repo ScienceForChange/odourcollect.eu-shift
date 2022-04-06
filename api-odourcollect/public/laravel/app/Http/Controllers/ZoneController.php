@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Stat;
-use Illuminate\Http\Request;
-
-use App\Zone;
-use App\Point;
-use App\User;
 use App\Odor;
+use App\Point;
 use App\PointOfInterest;
 use App\Services\PointLocation;
-
+use App\Stat;
+use App\User;
+use App\Zone;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
 
@@ -32,21 +30,21 @@ class ZoneController extends Controller
             'data' => [
                 'message' => 'Succesfull request.',
                 'content' => $zones,
-            ]
+            ],
         ], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  Integer  $id
-     * @param  Integer  $user
+     * @param  int  $id
+     * @param  int  $user
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $zone = Zone::with('points')->find($id);
-        if($zone){
+        if ($zone) {
 
 //            $stat = new Stat();
 //            $stat->type = 'Zone';
@@ -59,9 +57,9 @@ class ZoneController extends Controller
                 'status_code' => 200,
                 'data' => [
                     'finded' => true,
-                    'message' => "Zone ".$id." has been finded.",
+                    'message' => 'Zone '.$id.' has been finded.',
                     'object' => $zone,
-                ]
+                ],
             ], 200);
         }
 
@@ -70,22 +68,18 @@ class ZoneController extends Controller
             'status_code' => 400,
             'data' => [
                 'finded' => false,
-                'message' => "Resource not found.",
-            ]
+                'message' => 'Resource not found.',
+            ],
         ], 400);
-
     }
 
-
     public function zoneAttachPoints()
-    {        
-
+    {
         $pointLocation = new pointLocation();
 
         $points = PointOfInterest::get();
 
         foreach ($points as $key => $pointOfInterest) {
-
             $pointOfInterest_location = $pointOfInterest->latitude.' '.$pointOfInterest->longitude;
 
             $zones = Zone::with('points')->get();
@@ -94,7 +88,7 @@ class ZoneController extends Controller
                 $polygon = [];
                 foreach ($zone->points as $key => $point) {
                     $aux = '';
-                    $aux = $point->latitude. ' ' .$point->longitude;
+                    $aux = $point->latitude.' '.$point->longitude;
                     $polygon[] = $aux;
                 }
 
@@ -102,12 +96,7 @@ class ZoneController extends Controller
 
                 $pointOfInterest->zones()->detach($zone->id);
                 $pointOfInterest->zones()->attach($zone->id, ['verified' => 1]);
-
             }
-
-
         }
-
-        
     }
 }

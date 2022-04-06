@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class OdorSeeder extends Seeder
 {
@@ -13,6 +12,6 @@ class OdorSeeder extends Seeder
      */
     public function run()
     {
-    	factory(App\Location::class, 60)->create();
+        factory(App\Location::class, 60)->create();
     }
 }

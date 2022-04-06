@@ -4,37 +4,35 @@ namespace App\Services;
 
 class OdorColor
 {
-
     /**
      * @param int $annoy
      * @param int $intensity
      * @return string (color #hex)
      * @throws \Exception
      */
-    public function getOdorColor( $annoy, $intensity )
+    public function getOdorColor($annoy, $intensity)
     {
-
         $in = $intensity;
-        $an = $this->normalizeAnnoy( $annoy );
+        $an = $this->normalizeAnnoy($annoy);
 
-        $x = intval( $an ) * 10 / 9;
-        $y = intval( $in ) * 10 / 9;
+        $x = intval($an) * 10 / 9;
+        $y = intval($in) * 10 / 9;
 
-        $aux = ( 1.5 * $x + $y ) / 2.5;
-        $result = intval( $aux );
+        $aux = (1.5 * $x + $y) / 2.5;
+        $result = intval($aux);
 
-        $matrixNumber = min( 7, $result );
+        $matrixNumber = min(7, $result);
 
-        if($matrixNumber == 0){ $matrixNumber = 1;}
+        if ($matrixNumber == 0) {
+            $matrixNumber = 1;
+        }
 
         return $matrixNumber;
-
     }
 
-    protected function normalizeAnnoy( $annoy )
+    protected function normalizeAnnoy($annoy)
     {
-
-        switch ($annoy){
+        switch ($annoy) {
             case '4': return 1; break;
             case '3': return 2; break;
             case '2': return 3; break;
@@ -49,10 +47,9 @@ class OdorColor
         return false;
     }
 
-    protected function getColorFromMatrixNumber( $color )
+    protected function getColorFromMatrixNumber($color)
     {
-
-        switch ($color){
+        switch ($color) {
             case '1': return '#36e8ca'; break;
             case '2': return '#6ff38a'; break;
             case '3': return '#e6f9e5'; break;
@@ -64,5 +61,4 @@ class OdorColor
 
         return false;
     }
-
 }

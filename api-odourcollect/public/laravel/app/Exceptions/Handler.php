@@ -5,10 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-
 
 class Handler extends ExceptionHandler
 {
@@ -53,26 +51,25 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        
         if ($e instanceof UnauthorizedHttpException) {
             return response()->json(
             [
                 'status_code' => 401,
                 'data' => [
                     'error' => 401,
-                    'message' => "Unauthenticated - USER TOKEN NOT PROVIDED",
-                ]
+                    'message' => 'Unauthenticated - USER TOKEN NOT PROVIDED',
+                ],
             ], 401);
         }
 
         if ($e instanceof MethodNotAllowedHttpException) {
-            return response()->json( [
+            return response()->json([
                 'status_code' => 405,
                 'data' => [
                     'error' => 405,
                     'message' => 'Method is not allowed for the requested route',
-                ]
-            ], 405 );
+                ],
+            ], 405);
         }
 
         return parent::render($request, $e);
@@ -93,8 +90,8 @@ class Handler extends ExceptionHandler
                 'success' => false,
                 'data' => [
                     'error' => 401,
-                    'message' => "Unauthenticated",
-                ]
+                    'message' => 'Unauthenticated',
+                ],
             ], 401);
         }
 

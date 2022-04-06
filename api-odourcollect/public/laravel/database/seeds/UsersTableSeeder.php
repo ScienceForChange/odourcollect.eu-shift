@@ -1,9 +1,8 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
-use Carbon\Carbon;
 
 class UsersTableSeeder extends Seeder
 {
@@ -49,6 +48,5 @@ class UsersTableSeeder extends Seeder
         ]);
 
         //factory(App\User::class, 15)->create();
-
     }
 }
