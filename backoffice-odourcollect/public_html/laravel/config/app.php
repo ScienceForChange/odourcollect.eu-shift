@@ -155,8 +155,6 @@ return [
         /*
          * Package Service Providers...
          */
-        OwenIt\Auditing\AuditingServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
 
         /*
          * Application Service Providers...
