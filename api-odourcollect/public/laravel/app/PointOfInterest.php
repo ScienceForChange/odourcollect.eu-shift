@@ -37,7 +37,7 @@ class PointOfInterest extends Model implements Auditable
     /* RELACIONS N-M */
     public function zones()
     {
-        return $this->belongsToMany('App\Zone', 'point_of_interest_zones', 'id_point_of_interest', 'id_zone')->withPivot('verified')->withTimestamps();
+        return $this->belongsToMany(\App\Zone::class, 'point_of_interest_zones', 'id_point_of_interest', 'id_zone')->withPivot('verified')->withTimestamps();
     }
 
     /** FILTERS **/

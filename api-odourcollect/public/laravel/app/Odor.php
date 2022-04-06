@@ -39,34 +39,34 @@ class Odor extends Model implements Auditable
     /* RELACIONS 1-1 */
     public function location()
     {
-        return $this->hasOne('App\Location', 'id_odor', 'id');
+        return $this->hasOne(\App\Location::class, 'id_odor', 'id');
     }
 
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'id_user');
+        return $this->hasOne(\App\User::class, 'id', 'id_user');
     }
 
     /* RELACIONS 1-N */
     public function comments()
     {
-        return $this->hasMany('App\Comment', 'id_odor', 'id')->where('hidden', '0');
+        return $this->hasMany(\App\Comment::class, 'id_odor', 'id')->where('hidden', '0');
     }
 
     public function likes()
     {
-        return $this->hasMany('App\Like', 'id_odor', 'id');
+        return $this->hasMany(\App\Like::class, 'id_odor', 'id');
     }
 
     public function tracks()
     {
-        return $this->hasMany('App\OdorTrack', 'id_odor', 'id');
+        return $this->hasMany(\App\OdorTrack::class, 'id_odor', 'id');
     }
 
     /* RELACIONS N-M */
     public function zones()
     {
-        return $this->belongsToMany('App\Zone', 'odor_zones', 'id_odor', 'id_zone')->withPivot('verified')->withTimestamps();
+        return $this->belongsToMany(\App\Zone::class, 'odor_zones', 'id_odor', 'id_zone')->withPivot('verified')->withTimestamps();
     }
 
     /** FILTERS **/

@@ -39,7 +39,7 @@ class OdorType extends Model implements Auditable
     /* 1 - 1 RELATIONS */
     public function parent()
     {
-        return $this->hasOne('App\OdorParentType', 'id', 'id_odor_parent_type');
+        return $this->hasOne(\App\OdorParentType::class, 'id', 'id_odor_parent_type');
     }
 
     public function scopeParents($query, $ids)

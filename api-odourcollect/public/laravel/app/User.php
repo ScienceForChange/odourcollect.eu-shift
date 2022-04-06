@@ -63,18 +63,18 @@ class User extends Authenticatable implements JWTSubject, Auditable
     /* RELACIONS 1-N */
     public function comments()
     {
-        return $this->hasMany('App\Comment', 'id_user', 'id');
+        return $this->hasMany(\App\Comment::class, 'id_user', 'id');
     }
 
     public function likes()
     {
-        return $this->hasMany('App\Like', 'id_user', 'id');
+        return $this->hasMany(\App\Like::class, 'id_user', 'id');
     }
 
     /* RELACIONS N-M */
     public function zones()
     {
-        return $this->belongsToMany('App\Zone', 'user_zones', 'id_user', 'id_zone')->withTimestamps();
+        return $this->belongsToMany(\App\Zone::class, 'user_zones', 'id_user', 'id_zone')->withTimestamps();
     }
 
     public function sendPasswordResetNotification($token)

@@ -53,6 +53,6 @@ class Comment extends Model implements Auditable
 
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'id_user');
+        return $this->hasOne(\App\User::class, 'id', 'id_user');
     }
 }

@@ -39,22 +39,22 @@ class Zone extends Model implements Auditable
     /* RELACIONS 1-N */
     public function points()
     {
-        return $this->hasMany('App\Point', 'id_zone', 'id');
+        return $this->hasMany(\App\Point::class, 'id_zone', 'id');
     }
 
     /* RELACIONS N-M */
     public function users()
     {
-        return $this->belongsToMany('App\User', 'user_zones', 'id_zone', 'id_user')->withTimestamps();
+        return $this->belongsToMany(\App\User::class, 'user_zones', 'id_zone', 'id_user')->withTimestamps();
     }
 
     public function odors()
     {
-        return $this->belongsToMany('App\Odor', 'odor_zones', 'id_zone', 'id_odor')->withTimestamps();
+        return $this->belongsToMany(\App\Odor::class, 'odor_zones', 'id_zone', 'id_odor')->withTimestamps();
     }
 
     public function pointsOfInterest()
     {
-        return $this->belongsToMany('App\PointOfInterest', 'point_of_interest_zones', 'id_zone', 'id_point_of_interest')->withTimestamps();
+        return $this->belongsToMany(\App\PointOfInterest::class, 'point_of_interest_zones', 'id_zone', 'id_point_of_interest')->withTimestamps();
     }
 }
